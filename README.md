@@ -1,17 +1,16 @@
 ## Featrures
 
--- Login/SignUp
-    -- Signin / SignUp form
-    -- Redirect to Browse Page
+-- Login/SignUp - Signin / SignUp form - Redirect to Browse Page
 
--- Browse ( Authentication )
-    -- Header
-    -- Main Movie
-        - Trailer in Background
-        - Title & Description
-        - Movie Suggestions
-            MovieList * N
+- Browse ( Authentication )
 
--- NetflixGPT
-    - Search Bar
+  - Header
+  - Main Movie
+    - Trailer in Background
+    - Title & Description
     - Movie Suggestions
+      MovieList \* N
+
+- NetflixGPT
+  - Search Bar
+  - Movie Suggestions
