@@ -1,11 +1,9 @@
 import React from "react";
+import Body from "./Body";
 
 const App = () => {
-  return (
-    <div className="text-3xl font-bold underline text-green-800">
-      <p>Welcome to Netflix GPT</p>
-    </div>
-  );
+  return <Body />;
+  
 };
 
 export default App;
