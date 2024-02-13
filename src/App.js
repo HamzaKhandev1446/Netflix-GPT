@@ -2,7 +2,7 @@ import React from "react";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="text-3xl font-bold underline text-green-800">
       <p>Welcome to Netflix GPT</p>
     </div>
   );
