@@ -1,36 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { validateForm } from "../utils/validateForm";
 
 const Authentication = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState({
+    email: null,
+    password: null,
+    fullName: null,
+  });
+  const email = useRef(null);
+  const password = useRef(null);
+  const fullName = useRef("");
 
   const signUpHandler = () => {
+    if(!isSignInForm){
+      fullName.current.value = "";
+    }
     setIsSignInForm(!isSignInForm);
   };
+
+  const submitForm = () => {
+    setErrorMessage(
+      validateForm(
+        email?.current?.value,
+        password?.current?.value,
+        fullName?.current?.value
+      )
+    );
+
+    if (errorMessage.email || errorMessage.password || errorMessage.fullName) {
+      console.log("Error: ", errorMessage);
+      return;
+    } else {
+      console.log("Valid Form: ", errorMessage);
+      console.log("Email: ", email?.current?.value);
+      console.log("Password: ", password?.current?.value);
+      console.log("Full Name: ", fullName?.current?.value);
+    }
+  };
+
   return (
     <div className="w-full flex justify-center items-center">
-      <div class="w-3/12 signin-form-container my-4 mx-3 bg-black bg-opacity-80">
-        <div class="mx-16 my-16 text-white">
-          <h1 class="text-3xl my-5">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
-          <form class="flex flex-col justify-center items-center text-black">
+      <div className="w-3/12 signin-form-container my-4 mx-3 bg-black bg-opacity-80">
+        <div className="mx-16 my-16 text-white">
+          <h1 className="text-3xl my-5">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            className="flex flex-col justify-center items-center text-black"
+          >
             {!isSignInForm && (
               <input
+                ref={fullName}
                 type="text"
                 placeholder="Full Name"
-                class="p-3 m-4 w-full rounded-sm"
+                className="p-3 m-4 w-full rounded-sm"
               />
             )}
 
             <input
+              ref={email}
               type="text"
               placeholder="Email Address"
-              class="p-3 m-4 w-full rounded-sm"
+              className="p-3 m-4 w-full rounded-sm"
             />
+            <p className="text-red-700 font-bold mr-auto">
+              {errorMessage?.email}
+            </p>
             <input
+              ref={password}
               type="password"
               placeholder="Password"
-              class="p-3 m-4 w-full rounded-sm"
+              className="p-3 m-4 w-full rounded-sm"
             />
-            <button class="w-full py-3 m-4 bg-red-600 text-white rounded-sm">
+            <p className="text-red-700 font-bold mr-auto">
+              {errorMessage?.password}
+            </p>
+            <button
+              className="w-full py-3 m-4 bg-red-600 text-white rounded-sm"
+              onClick={submitForm}
+            >
               {isSignInForm ? "Sign In" : "Sign Up"}
             </button>
             <p className="text-gray-600 text-md text-left mr-auto my-4">
