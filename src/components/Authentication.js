@@ -1,22 +1,52 @@
 import React, { useState, useRef } from "react";
 import { validateForm } from "../utils/validateForm";
+import { auth } from "../utils/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+import ToastMessage from "./ToastMessage";
 
 const Authentication = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState({
     email: null,
     password: null,
-    fullName: null,
   });
+  const [toastMessage, setToastMessage] = useState(null);
+
   const email = useRef(null);
   const password = useRef(null);
-  const fullName = useRef("");
 
   const signUpHandler = () => {
-    if(!isSignInForm){
-      fullName.current.value = "";
-    }
     setIsSignInForm(!isSignInForm);
+  };
+
+  const googleSignInHandler = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        console.log(user, token);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        setToastMessage(errorMessage);
+        // ...
+      });
   };
 
   const submitForm = () => {
@@ -24,18 +54,32 @@ const Authentication = () => {
       validateForm(
         email?.current?.value,
         password?.current?.value,
-        fullName?.current?.value
+      
       )
     );
 
-    if (errorMessage.email || errorMessage.password || errorMessage.fullName) {
-      console.log("Error: ", errorMessage);
+    if (errorMessage.email || errorMessage.password )
       return;
+    if (isSignInForm) {
+      // Sign In Logic
+     
     } else {
-      console.log("Valid Form: ", errorMessage);
-      console.log("Email: ", email?.current?.value);
-      console.log("Password: ", password?.current?.value);
-      console.log("Full Name: ", fullName?.current?.value);
+      // Sign Up Logic
+      createUserWithEmailAndPassword(
+        auth,
+        email?.current?.value,
+        password?.current?.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage, errorCode);
+          setToastMessage(errorMessage);
+        });
     }
   };
 
@@ -43,6 +87,13 @@ const Authentication = () => {
     <div className="w-full flex justify-center items-center">
       <div className="w-3/12 signin-form-container my-4 mx-3 bg-black bg-opacity-80">
         <div className="mx-16 my-16 text-white">
+          {toastMessage && (
+            <ToastMessage
+              toastMessage={toastMessage}
+              setToastMessage={setToastMessage}
+            />
+          )}
+
           <h1 className="text-3xl my-5">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
@@ -52,14 +103,6 @@ const Authentication = () => {
             }}
             className="flex flex-col justify-center items-center text-black"
           >
-            {!isSignInForm && (
-              <input
-                ref={fullName}
-                type="text"
-                placeholder="Full Name"
-                className="p-3 m-4 w-full rounded-sm"
-              />
-            )}
 
             <input
               ref={email}
@@ -84,6 +127,29 @@ const Authentication = () => {
               onClick={submitForm}
             >
               {isSignInForm ? "Sign In" : "Sign Up"}
+            </button>
+
+            <button
+              type="button"
+              className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+              onClick={googleSignInHandler}
+            >
+              <svg
+                className="mr-2 -ml-1 w-4 h-4"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fab"
+                data-icon="google"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 488 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                ></path>
+              </svg>
+              Sign in with Google
             </button>
             <p className="text-gray-600 text-md text-left mr-auto my-4">
               {!isSignInForm ? "Already register?" : "New to Netflix?"}

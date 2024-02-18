@@ -10,23 +10,13 @@ export const isValidPassword = (password) => {
   return !isPassword ? "Password is not Valid" : null;
 };
 
-export const isValidFullName = (fullName) => {
-  const isFullName = /^[A-Za-z][A-Za-z0-9_]{7,16}$/.test(fullName);
-  return !isFullName || fullName.length === 0 ? "Full Name is not Valid" : null;
-};
-
 export const validateForm = (email, password, fullName) => {
   const errorMessage = {
     email: null,
     password: null,
-    fullName: null,
   };
   errorMessage.email = isValidEmail(email);
   errorMessage.password = isValidPassword(password);
-  if (fullName === undefined) {
-    errorMessage.fullName = null;
-  } else {
-    errorMessage.fullName = isValidFullName(fullName);
-  }
+
   return errorMessage;
 };
