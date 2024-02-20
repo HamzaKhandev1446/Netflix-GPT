@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import ToastMessage from "./ToastMessage";
 import { useDispatch } from "react-redux";
-import { addUser, removeUser } from "../utils/userSlice";
+import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Authentication = () => {
@@ -43,7 +43,6 @@ const Authentication = () => {
       };
       dispatch(addUser(userInfo));
       navigate('/browse')
-
       return res;
     })
     .catch(err => err);

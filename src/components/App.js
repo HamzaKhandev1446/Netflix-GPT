@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from "react";
-import Body from "./Body";
+import React from "react";
 import { Provider } from "react-redux";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Login from "./Login";
+import Browse from "./Browse";
+
+
 import appStore from "../utils/appStore";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../utils/firebase";
+
+import Authenticator from "./Authenticator";
 
 const App = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { displayName, email, photoURL, uid } = user;
-        const userInfo = {
-          photoURL,
-          email,
-          name: displayName,
-          uid,
-        };
-        setUserInfo(userInfo);
-
-        // ...
-      } else {
-        setUserInfo(null);
-      }
-    });
-  }, []);
-
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element:
+       <Login />,
+    },
+    {
+      path: "/browse",
+      element: <Browse />,
+    },
+  ]);
   return (
     <Provider store={appStore}>
-      <Body userInfo={userInfo} />;
+      <Authenticator>
+      <RouterProvider router={appRouter}> </RouterProvider>;
+      </Authenticator>
     </Provider>
   );
 };
