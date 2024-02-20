@@ -7,6 +7,9 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import ToastMessage from "./ToastMessage";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Authentication = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -15,6 +18,8 @@ const Authentication = () => {
     password: null,
   });
   const [toastMessage, setToastMessage] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const email = useRef(null);
   const password = useRef(null);
@@ -25,44 +30,33 @@ const Authentication = () => {
 
   const googleSignInHandler = () => {
     const provider = new GoogleAuthProvider();
+
+
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        console.log(user, token);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        setToastMessage(errorMessage);
-        // ...
-      });
+    .then(res => {
+      const { displayName, email, photoURL, uid } = res.user;
+      const userInfo = {
+        photoURL,
+        email,
+        name: displayName,
+        uid
+      };
+      dispatch(addUser(userInfo));
+      navigate('/browse')
+
+      return res;
+    })
+    .catch(err => err);
   };
 
   const submitForm = () => {
     setErrorMessage(
-      validateForm(
-        email?.current?.value,
-        password?.current?.value,
-      
-      )
+      validateForm(email?.current?.value, password?.current?.value)
     );
 
-    if (errorMessage.email || errorMessage.password )
-      return;
+    if (errorMessage.email || errorMessage.password) return;
     if (isSignInForm) {
       // Sign In Logic
-     
     } else {
       // Sign Up Logic
       createUserWithEmailAndPassword(
@@ -103,7 +97,6 @@ const Authentication = () => {
             }}
             className="flex flex-col justify-center items-center text-black"
           >
-
             <input
               ref={email}
               type="text"
