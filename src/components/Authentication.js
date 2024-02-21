@@ -84,7 +84,7 @@ const Authentication = () => {
 
   return (
     <div className="w-full flex justify-center items-center">
-      <div className="w-3/12 signin-form-container my-4 mx-3 bg-black bg-opacity-80">
+      <div className="xl:w-4/12 lg:w-5/12 md:w-7/12 signin-form-container my-4 mx-3 bg-black bg-opacity-80">
         <div className="mx-16 my-16 text-white">
           {toastMessage && (
             <ToastMessage
