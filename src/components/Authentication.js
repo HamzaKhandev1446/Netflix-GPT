@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { validateForm } from "../utils/validateForm";
 import { auth } from "../utils/firebase";
 import {
@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import ToastMessage from "./ToastMessage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,13 @@ const Authentication = () => {
   const [toastMessage, setToastMessage] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state?.user);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/browse");
+    }
+  });
 
   const email = useRef(null);
   const password = useRef(null);
@@ -31,21 +38,20 @@ const Authentication = () => {
   const googleSignInHandler = () => {
     const provider = new GoogleAuthProvider();
 
-
     signInWithPopup(auth, provider)
-    .then(res => {
-      const { displayName, email, photoURL, uid } = res.user;
-      const userInfo = {
-        photoURL,
-        email,
-        name: displayName,
-        uid
-      };
-      dispatch(addUser(userInfo));
-      navigate('/browse')
-      return res;
-    })
-    .catch(err => err);
+      .then((res) => {
+        const { displayName, email, photoURL, uid } = res.user;
+        const userInfo = {
+          photoURL,
+          email,
+          name: displayName,
+          uid,
+        };
+        dispatch(addUser(userInfo));
+        navigate("/browse");
+        return res;
+      })
+      .catch((err) => err);
   };
 
   const submitForm = () => {
