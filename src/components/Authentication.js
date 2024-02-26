@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { validateForm } from "../utils/validateForm";
 import { auth } from "../utils/firebase";
 import {
@@ -7,9 +7,8 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import ToastMessage from "./ToastMessage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
 
 const Authentication = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -19,14 +18,6 @@ const Authentication = () => {
   });
   const [toastMessage, setToastMessage] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const user = useSelector((state) => state?.user);
-
-  useEffect(() => {
-    if (user) {
-      navigate("/browse");
-    }
-  });
 
   const email = useRef(null);
   const password = useRef(null);
@@ -48,7 +39,6 @@ const Authentication = () => {
           uid,
         };
         dispatch(addUser(userInfo));
-        navigate("/browse");
         return res;
       })
       .catch((err) => err);
