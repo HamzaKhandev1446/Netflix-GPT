@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import ToastMessage from "./ToastMessage";
 import { useDispatch } from "react-redux";
-import { addUser } from "../utils/userSlice";
+import { addUser } from "../store/userSlice";
 
 const Authentication = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);

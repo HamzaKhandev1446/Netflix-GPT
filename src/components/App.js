@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./Login";
 import Browse from "./Browse";
 
-import appStore from "../utils/appStore";
+import appStore from "../store/appStore";
 
 const App = () => {
   const appRouter = createBrowserRouter([
