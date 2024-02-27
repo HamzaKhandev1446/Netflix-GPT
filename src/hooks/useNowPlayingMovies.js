@@ -11,7 +11,7 @@ const useNowPlayingMovies = () => {
       NOW_PLATING_MOVIES_API
     );
     const json = await data?.json();
-    await dispatch(addNowPlayingMovies({ nowPlayingMovies: json?.results }));
+    await dispatch(addNowPlayingMovies(json?.results));
   };
 
   useEffect(() => {

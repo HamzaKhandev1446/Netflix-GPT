@@ -6,11 +6,20 @@ export const PROFILE_AVATAR_LOGO =
 export const LOGIN_BACKGROUND =
   "https://miro.medium.com/v2/resize:fit:1400/1*5lyavS59mazOFnb55Z6znQ.png";
 
+export const NOW_PLATING_MOVIES_API = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNGM2ODU5ZmQ0ZjlmNjA2Mjg5YjEwMmM1MTk5YjZlZCIsInN1YiI6IjY1ZGM4ZGVmYWJmOGUyMDE4NmRlOTBiYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.C7Dt8SdsR_7jS09yUbYugsPSLhFPKqYjWN1btYMO6s0",
+  },
+};
 
-  export const NOW_PLATING_MOVIES_API = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNGM2ODU5ZmQ0ZjlmNjA2Mjg5YjEwMmM1MTk5YjZlZCIsInN1YiI6IjY1ZGM4ZGVmYWJmOGUyMDE4NmRlOTBiYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.C7Dt8SdsR_7jS09yUbYugsPSLhFPKqYjWN1btYMO6s0'
-    }
-  };
+export const GET_MOVIE_TRAILER = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNGM2ODU5ZmQ0ZjlmNjA2Mjg5YjEwMmM1MTk5YjZlZCIsInN1YiI6IjY1ZGM4ZGVmYWJmOGUyMDE4NmRlOTBiYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.C7Dt8SdsR_7jS09yUbYugsPSLhFPKqYjWN1btYMO6s0",
+  },
+};
