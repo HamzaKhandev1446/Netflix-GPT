@@ -8,10 +8,12 @@ const Browse = () => {
   useNowPlayingMovies();
 
   return (
-    <div>
+    <div className="flex flex-col justify-start items-center h-screen">
       <Header></Header>
       <MainContainer />
-      <MovieListContainer />
+      <div className="ml-auto">
+        <MovieListContainer />
+      </div>
     </div>
   );
 };

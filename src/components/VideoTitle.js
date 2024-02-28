@@ -9,9 +9,9 @@ const VideoTitle = ({ mainMovie }) => {
       </div>
 
       <div className="pt-10">
-        <button className="bg-gray-50 text-black p-4 rounded-sm"> Play</button>
+        <button className="bg-gray-50 text-black p-4 rounded-sm"> ▶ Play</button>
         <button className="bg-gray-700 text-white p-4 rounded-sm ml-3">
-          More Info
+          More Info ⓘ
         </button>
       </div>
     </div>

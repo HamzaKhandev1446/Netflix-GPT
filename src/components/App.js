@@ -19,7 +19,7 @@ const App = () => {
   ]);
   return (
     <Provider store={appStore}>
-      <RouterProvider router={appRouter}> </RouterProvider>;
+      <RouterProvider router={appRouter}> </RouterProvider>
     </Provider>
   );
 };
